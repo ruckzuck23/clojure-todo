@@ -37,7 +37,9 @@
        (doall
             (for [[i task] (map vector (range) @tasks)]
                   [:div {:key (str i)}
-                   (task :content)
+                   (if (task :done?)
+                     [:span {:style {:text-decoration "line-through"}} (task :content)]
+                     [:span (task :content)])
                    " " [:button
                         {:onClick (fn [] (swap! tasks update i (fn [task] (update task :done? #(not %)))))}
                         "✓"]
